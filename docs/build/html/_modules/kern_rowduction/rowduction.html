@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kern_rowduction.rowduction &mdash; Kern Rowduction 0.0.1 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Kern Rowduction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/mathematics.html">Mathematical concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/source_code_doc.html">Source Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rst/glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Kern Rowduction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>kern_rowduction.rowduction</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for kern_rowduction.rowduction</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;All the usable methods/functions which constitute the Kern_Rowduction package.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<div class="viewcode-block" id="epsilon_dominates"><a class="viewcode-back" href="../../rst/source_code_doc.html#kern_rowduction.rowduction.epsilon_dominates">[docs]</a><span class="k">def</span> <span class="nf">epsilon_dominates</span><span class="p">(</span><span class="n">point_id_1</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">point_id_2</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;From an input DF, check if the input node Point 1 (row 1) epsilon dominates the node</span>
+<span class="sd">        Point 2 (row 2).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    point_id_1 : int</span>
+<span class="sd">        Row index of the point 1 in the pandas DataFrame df</span>
+<span class="sd">    point_id_2 : int</span>
+<span class="sd">        Row index of the point 2 in the pandas DataFrame df</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Pandas Dataframe where the point are stored</span>
+<span class="sd">    epsilon : float</span>
+<span class="sd">        Threshold of dominance between 2 points: Point1 must be &gt; (1+epsilon)*Point2 for each column</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    flag</span>
+<span class="sd">        A boolean which is True if Point 1 epsilon dominates Point 2 otherwise False</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1">#Assumed true unless evidence to the contrary</span>
+
+    <span class="c1"># Get all the edged nodes of Point 1 &amp; 2</span>
+    <span class="n">point_1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">point_id_1</span><span class="p">])</span>
+    <span class="n">point_2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">point_id_2</span><span class="p">])</span>
+
+    <span class="c1"># Iteration over each edged node of Point 1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">point_1</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">point_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">epsilon</span><span class="p">)</span><span class="o">*</span><span class="n">point_2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">flag</span> <span class="c1"># True if Point 1 epsilon dominates Point 2 otherwise False</span></div>
+
+<div class="viewcode-block" id="find_in_neighbors"><a class="viewcode-back" href="../../rst/source_code_doc.html#kern_rowduction.rowduction.find_in_neighbors">[docs]</a><span class="k">def</span> <span class="nf">find_in_neighbors</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">point_id</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;From a graph and a dictionary of all nodes&#39; neighbors, find all INNER neighbors of</span>
+<span class="sd">       the input node (identified by its point_id).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph : networkx DiGraph</span>
+<span class="sd">        Networkx Digraph with all the nodes and edges created basically from the original DataFrame</span>
+<span class="sd">    point_id : int</span>
+<span class="sd">        Number ID of the node to analyze in the graph</span>
+<span class="sd">    all_neighbors_dic : dict</span>
+<span class="sd">        Dictionary of integers (nodes) with all the inner and outer neighbors of the all the nodes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    in_neighbors : list</span>
+<span class="sd">        A list with all the INNER neighbords of the node point_id</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">all_neighbors</span> <span class="o">=</span> <span class="n">all_neighbors_dic</span><span class="p">[</span><span class="n">point_id</span><span class="p">]</span> <span class="c1"># Neighbors of point_id</span>
+    <span class="n">in_neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># For all the edged node IDs in the dictionary for the input node</span>
+    <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">all_neighbors</span><span class="p">:</span>
+        <span class="c1">#If there is an edge TO the input node, append it to the list of all INNER neighbors</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">point_id</span><span class="p">)</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+            <span class="n">in_neighbors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">in_neighbors</span></div>
+
+<div class="viewcode-block" id="find_out_neighbors"><a class="viewcode-back" href="../../rst/source_code_doc.html#kern_rowduction.rowduction.find_out_neighbors">[docs]</a><span class="k">def</span> <span class="nf">find_out_neighbors</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">point_id</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;From a graph and a dictionary of all nodes&#39; neighbors, find all OUTER neighbors of</span>
+<span class="sd">       the input node (identified by its point_id).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph : networkx DiGraph</span>
+<span class="sd">        Networkx Digraph with all the nodes and edges created basically from the original DataFrame</span>
+<span class="sd">    point_id : int</span>
+<span class="sd">        Number ID of the node to analyze in the graph</span>
+<span class="sd">    all_neighbors_dic : dict</span>
+<span class="sd">        Dictionary of integers (nodes) with all the inner and outer neighbors of the all the nodes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    in_neighbors : list</span>
+<span class="sd">        A list with all the OUTER neighbords of the node point_id</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">all_neighbors</span> <span class="o">=</span> <span class="n">all_neighbors_dic</span><span class="p">[</span><span class="n">point_id</span><span class="p">]</span> <span class="c1"># Neighbors of point_id</span>
+    <span class="n">out_neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># For all the edged node IDs in the dictionary for the input node</span>
+    <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">all_neighbors</span><span class="p">:</span>
+        <span class="c1">#If there is an edge FROM the input node, append it to the list of all OUTER neighbors</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">point_id</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">)</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+            <span class="n">out_neighbors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_neighbors</span></div>
+
+<div class="viewcode-block" id="extract_kernel"><a class="viewcode-back" href="../../rst/source_code_doc.html#kern_rowduction.rowduction.extract_kernel">[docs]</a><span class="k">def</span> <span class="nf">extract_kernel</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Retrieve the kernel of the input directed graph if there is one.</span>
+<span class="sd">        NB : This function works indefinitely if the graph includes a circuit.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph : networkx DiGraph</span>
+<span class="sd">        Networkx Digraph with all the nodes and edges created basically from the original DataFrame</span>
+<span class="sd">    all_neighbors_dic : dict</span>
+<span class="sd">        Dictionary of integers (nodes) with all the inner and outer neighbors of the all the nodes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : list</span>
+<span class="sd">        A sorted list with all the nodes of the kernel computed.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Initialize variables</span>
+    <span class="n">kernel</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+
+    <span class="c1"># Initialize list of nodes to check</span>
+    <span class="n">d_minus</span><span class="p">,</span> <span class="n">candidate</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+        <span class="n">d_minus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">candidate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Iteration over each node of the graph</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+        <span class="n">d_minus</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">find_in_neighbors</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">d_minus</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># If the node has no previous one, it&#39;s added to the kernel</span>
+            <span class="n">kernel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># Otherwise it is added as a potential candidate to check as kernel&#39;s</span>
+                <span class="c1"># node by the search algorithm</span>
+            <span class="n">candidate</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">nb_candidates</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">candidate</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">candidate</span><span class="p">])</span>
+
+    <span class="c1"># Search algorithm : Check if the candidates are kernel&#39;s node or not</span>
+    <span class="c1"># So long there is still at least 1 remaining candidate node</span>
+    <span class="k">while</span> <span class="n">nb_candidates</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+        <span class="c1"># For each node x in the kernel</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">kernel</span><span class="p">:</span>
+            <span class="c1"># For each OUT neighbors of this node X</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">find_out_neighbors</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">):</span>
+
+                <span class="c1"># If the found OUT neighbor node Y is also a candidate ==&gt; we remove it</span>
+                    <span class="c1"># from the list of candidates</span>
+                <span class="k">if</span> <span class="n">candidate</span><span class="p">[</span><span class="n">y</span><span class="p">]:</span>
+                    <span class="n">candidate</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">nb_candidates</span> <span class="o">-=</span> <span class="mi">1</span>
+
+                    <span class="c1"># For each OUT neighbors of this IN neighbor node Y</span>
+                    <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">find_out_neighbors</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">):</span>
+
+                        <span class="k">if</span> <span class="n">candidate</span><span class="p">[</span><span class="n">z</span><span class="p">]:</span> <span class="c1"># If the found OUT neighbor node Z of Y</span>
+                                            <span class="c1"># is a remaining candidate, remove it</span>
+                            <span class="n">d_minus</span><span class="p">[</span><span class="n">z</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                            <span class="k">if</span> <span class="n">d_minus</span><span class="p">[</span><span class="n">z</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># If it&#39;s the last node, then there is no</span>
+                                                    <span class="c1"># following nodes, so append it to the kernel</span>
+                                <span class="n">kernel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+                                <span class="n">candidate</span><span class="p">[</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                                <span class="n">nb_candidates</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="c1"># Return the final computed kernel</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="build_uncycled_subgraphs"><a class="viewcode-back" href="../../rst/source_code_doc.html#kern_rowduction.rowduction.build_uncycled_subgraphs">[docs]</a><span class="k">def</span> <span class="nf">build_uncycled_subgraphs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Build 2 induced subgraphs from the input graph so that both subgraphs don&#39;t include cycles.</span>
+<span class="sd">       That is to say, from a input graph, build 2 sub graphs according to the sense of their edges</span>
+<span class="sd">       (departure_node&#39;s value &lt;=&gt; arrival_node&#39;s value).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph : networkx DiGraph</span>
+<span class="sd">        Networkx Digraph with all the nodes and edges created basically from the original DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    graph1_prime : networkx DiGraph</span>
+<span class="sd">        A uncycled sub graph with the edges between a lower node&#39;s value to a higher node&#39;s value</span>
+<span class="sd">        from the input graph</span>
+<span class="sd">    graph2_prime : networkx DiGraph</span>
+<span class="sd">        A uncycled sub graph with the other edges from the input graph not put into graph1_prime</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># Make the 2 subgraphs with the same nodes</span>
+    <span class="n">graph1_prime</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">graph1_prime</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">))</span>
+    <span class="n">graph2_prime</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">graph2_prime</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">))</span>
+
+    <span class="c1"># Copy the edges of the input graph in one or another subgraph according to the values</span>
+        <span class="c1"># of the entry/exit nodes</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="c1"># If the entry node&#39;s value &lt; exit node&#39;s value ==&gt; add the</span>
+                            <span class="c1"># edge to the subgraph 1</span>
+            <span class="n">graph1_prime</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># Otherwise ==&gt; add the edge of the subgraph 2</span>
+            <span class="n">graph2_prime</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">graph1_prime</span><span class="p">,</span> <span class="n">graph2_prime</span></div>
+
+<div class="viewcode-block" id="extract_quasi_kernel"><a class="viewcode-back" href="../../rst/source_code_doc.html#kern_rowduction.rowduction.extract_quasi_kernel">[docs]</a><span class="k">def</span> <span class="nf">extract_quasi_kernel</span><span class="p">(</span><span class="n">uncycled_subgraph_1</span><span class="p">,</span> <span class="n">uncycled_subgraph_2</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Extract the quasi kernel from 2 associated uncycled subgraphs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    uncycled_subgraph_1 : networkx DiGraph</span>
+<span class="sd">        Networkx Digraph without cycles and with all the nodes and &quot;increasing&quot; edges extracted</span>
+<span class="sd">        initially from a bigger input graph.</span>
+<span class="sd">    uncycled_subgraph_2 : networkx DiGraph</span>
+<span class="sd">        Networkx Digraph without cycles and with all the nodes and &quot;decreasing&quot; edges extracted</span>
+<span class="sd">        initially from a bigger input graph.</span>
+<span class="sd">    all_neighbors_dic : dict</span>
+<span class="sd">        Dictionary of integers (nodes) with all the inner and outer neighbors of the all the nodes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    quasi_kernel : list</span>
+<span class="sd">        A sorted list with all the nodes of the quasi kernel computed.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">subgraph_2_kernel</span> <span class="o">=</span> <span class="n">extract_kernel</span><span class="p">(</span><span class="n">uncycled_subgraph_1</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">)</span>
+    <span class="n">subgraph_2_prime</span> <span class="o">=</span> <span class="n">uncycled_subgraph_2</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">subgraph_2_kernel</span><span class="p">)</span>
+    <span class="n">quasi_kernel</span> <span class="o">=</span> <span class="n">extract_kernel</span><span class="p">(</span><span class="n">subgraph_2_prime</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">quasi_kernel</span></div>
+
+<div class="viewcode-block" id="apply_kern_rowduction"><a class="viewcode-back" href="../../rst/source_code_doc.html#kern_rowduction.rowduction.apply_kern_rowduction">[docs]</a><span class="k">def</span> <span class="nf">apply_kern_rowduction</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">nb_rows_memory</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Apply the &quot;Rowduction&quot; process on a DF and returns the reduced DataFrame.</span>
+<span class="sd">        NB : The Rowduction process consists in building a directed graph, extracting its quasi</span>
+<span class="sd">        kernel and returning the associated DF.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        DataFrame to reduce through the &quot;Rowduction&quot; process</span>
+<span class="sd">    epsilon : float</span>
+<span class="sd">        Threshold of dominance between 2 points: Point1 must be &gt; (1+epsilon)*Point2 for each column</span>
+<span class="sd">    nb_rows_memory : int</span>
+<span class="sd">        Number of rows per batch to process the Rowduction. Smaller it is, less memory it takes but</span>
+<span class="sd">        potentially slower it is</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rowducted_df : pandas DataFrame</span>
+<span class="sd">        The input &#39;df&#39; DataFrame but rowducted, with only the rows to keep after the Rowduction</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span> <span class="c1"># Creation of a directed graph</span>
+    <span class="n">edges_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">all_neighbors_dic</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#Dictionary of nodes&#39; neighbors</span>
+
+    <span class="c1"># Compare each row of df with all of eps_df</span>
+    <span class="n">epsilon_prime</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">epsilon</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+    <span class="n">eps_df</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">epsilon_prime</span><span class="p">)</span><span class="o">*</span><span class="n">df</span>
+    <span class="n">eps_df_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eps_df</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span>
+
+    <span class="c1"># For each subframe of the dataframe, we retrieve all epsilon dominated/dominating nodes</span>
+        <span class="c1"># in a list of dict</span>
+    <span class="n">nb_iter</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">//</span> <span class="n">nb_rows_memory</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">df_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nb_iter</span><span class="p">):</span>
+        <span class="n">df_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">nb_rows_memory</span> <span class="p">:</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">nb_rows_memory</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">all_greater</span> <span class="o">=</span> <span class="p">(</span><span class="n">eps_df_array</span> <span class="o">&gt;=</span> <span class="n">df_array</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># It works because of the broadcast</span>
+                                                                <span class="c1"># property of numpy arrays</span>
+        <span class="c1"># Get the row indexes of df and eps_df where there is a epsilon dominance</span>
+            <span class="c1"># thanks nonzero and transpose</span>
+        <span class="n">trans_greater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">all_greater</span><span class="p">))</span>
+        <span class="n">trans_greater</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">i</span><span class="o">*</span><span class="n">nb_rows_memory</span>
+        <span class="n">df_i</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">trans_greater</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">])</span>
+        <span class="n">df_res</span> <span class="o">=</span> <span class="n">df_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_i</span><span class="p">)</span>
+        <span class="c1"># Remove the self indexes (0 epsilon dominates 0 etc...)</span>
+        <span class="c1"># And put into a dictionary the row indexes which are epsilon dominating or dominated</span>
+        <span class="n">df_res</span> <span class="o">=</span> <span class="n">df_res</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">dict_dominating</span> <span class="o">=</span> <span class="n">df_res</span><span class="p">[</span><span class="n">df_res</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ne</span><span class="p">(</span><span class="n">df_res</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="n">dict_dominated</span> <span class="o">=</span> <span class="n">df_res</span><span class="p">[</span><span class="n">df_res</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ne</span><span class="p">(</span><span class="n">df_res</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">)[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="c1"># Merge both dominating &amp; dominated nodes dictionaries + create the list of edges (as tuples)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="n">node_doms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dict_dominated</span><span class="p">:</span>
+            <span class="n">node_doms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dict_dominated</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+
+            <span class="c1"># Add edges to the edges_list</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">dict_dominated</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+            <span class="n">edges_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dict_dominating</span><span class="p">:</span>
+            <span class="n">node_doms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dict_dominating</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+
+        <span class="c1"># Remove duplicates and add to the neighbor dictionary all merged dominated/dominating nodes</span>
+        <span class="n">node_doms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">node_doms</span><span class="p">))</span>
+        <span class="n">node_doms</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">all_neighbors_dic</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_doms</span>
+
+        <span class="k">del</span> <span class="n">node_doms</span><span class="p">,</span> <span class="n">edges</span>
+
+    <span class="c1"># Create the global graph</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">edges_list</span><span class="p">)</span>
+
+    <span class="c1"># Compute quasi kernel</span>
+    <span class="n">graph_1_prime</span><span class="p">,</span> <span class="n">graph_2_prime</span> <span class="o">=</span> <span class="n">build_uncycled_subgraphs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+    <span class="n">quasi_kernel</span> <span class="o">=</span> <span class="n">extract_quasi_kernel</span><span class="p">(</span><span class="n">graph_1_prime</span><span class="p">,</span> <span class="n">graph_2_prime</span><span class="p">,</span> <span class="n">all_neighbors_dic</span><span class="p">)</span>
+
+    <span class="n">rowducted_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">quasi_kernel</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">rowducted_df</span></div>
+
+<div class="viewcode-block" id="rowduct"><a class="viewcode-back" href="../../rst/source_code_doc.html#kern_rowduction.rowduction.rowduct">[docs]</a><span class="k">def</span> <span class="nf">rowduct</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">rowduction_target</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">nb_rows_memory</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> \
+    <span class="n">step_activated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;_krd_default_label_&quot;</span><span class="p">,</span> <span class="n">rowduction_method</span><span class="o">=</span><span class="s2">&quot;separately&quot;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Parametrize the &quot;Rowduction&quot; process, apply it on a DF and returns the reduced DataFrame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        DataFrame to reduce through the &quot;Rowduction&quot; process</span>
+<span class="sd">    rowduction_target : list or str</span>
+<span class="sd">        List of label values upon which to apply the Rowduction process. Rows with label values</span>
+<span class="sd">        that are not listed will remain intact. If the rowduction_target = &quot;all&quot; (default value),</span>
+<span class="sd">        the whole input DataFrame df is reduced.</span>
+<span class="sd">    epsilon : float</span>
+<span class="sd">        Threshold of dominance between 2 points: Point1 must be &gt; (1+epsilon)*Point2 for each column</span>
+<span class="sd">    nb_rows_memory : int</span>
+<span class="sd">        Number of rows per batch to process the Rowduction. Smaller it is, less memory it takes but</span>
+<span class="sd">        potentially slower it is</span>
+<span class="sd">    step_activated : boolean</span>
+<span class="sd">        True if the Rowduction has to be step by step of rows, which avoids memory errors in case of</span>
+<span class="sd">        huge input DataFrame df. Otherwise False for a &#39;one shot&#39; rowduction.</span>
+<span class="sd">    label_col : str</span>
+<span class="sd">        Name of the label column which contains the &#39;rowduction_target&#39;</span>
+<span class="sd">    rowduction_method : str</span>
+<span class="sd">        Rowduction method : &#39;grouped&#39; to reduce/rowduct together all Rowduction targets,</span>
+<span class="sd">        &#39;separately&#39; to reduce/rowduct each of them separately and then concatenate them together</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rowducted_df : pandas DataFrame</span>
+<span class="sd">        The input &#39;df&#39; DataFrame but rowducted, with only the rows to keep after the Rowduction</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># If label_col is equal to the default value, \</span>
+    <span class="c1"># then create a tempory constant column &quot;_krd_default_label_&quot;</span>
+    <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;_krd_default_label_&quot;</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;_krd_default_label_&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># If the rowduction target is &quot;all&quot;, the target are the list of distinct values of the label_col</span>
+    <span class="k">if</span> <span class="n">rowduction_target</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+        <span class="n">rowduction_target</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">]))</span>
+
+    <span class="n">header</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">nb_iter</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">//</span> <span class="n">nb_rows_memory</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># If we want to do a step by step rowduction</span>
+    <span class="k">if</span> <span class="n">step_activated</span> <span class="ow">and</span> <span class="n">nb_iter</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+
+        <span class="c1"># Initialize the progress bar displayed in the console</span>
+        <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="p">(</span><span class="n">nb_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Kern Rowduction - Progression (by batch)&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Initialize the dataframe concatenating the results of the various rowductions</span>
+        <span class="n">all_rd_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([],</span> <span class="n">columns</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
+
+        <span class="c1"># For each batch of data</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nb_iter</span><span class="p">)):</span>
+
+            <span class="n">index_begin</span> <span class="o">=</span> <span class="n">i</span><span class="o">*</span><span class="n">nb_rows_memory</span>
+            <span class="n">index_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">nb_rows_memory</span><span class="o">-</span><span class="mi">1</span>
+
+            <span class="c1"># Rowduct all values of the label together (0 and 1 together by example)</span>
+            <span class="k">if</span> <span class="n">rowduction_method</span> <span class="o">==</span> <span class="s2">&quot;grouped&quot;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index_begin</span><span class="p">:</span><span class="n">index_end</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">data_target</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">rd_data_target</span> <span class="o">=</span> <span class="n">apply_kern_rowduction</span><span class="p">(</span><span class="n">data_target</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span>\
+                    <span class="n">nb_rows_memory</span><span class="o">=</span><span class="n">nb_rows_memory</span><span class="p">)</span>
+                <span class="n">data_rest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data_target</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_rest</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">all_rd_data</span> <span class="o">=</span> <span class="n">all_rd_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rd_data</span><span class="p">)</span>
+                <span class="k">del</span> <span class="n">rd_data</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data_target</span><span class="p">,</span> <span class="n">data_rest</span><span class="p">,</span> <span class="n">rd_data_target</span>
+                <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Add 10% to the progress bar</span>
+
+            <span class="c1"># Rowduct all values of the label separately, and then join them together</span>
+                <span class="c1"># with the none rowducted ones</span>
+            <span class="k">elif</span> <span class="n">rowduction_method</span> <span class="o">==</span> <span class="s2">&quot;separately&quot;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index_begin</span><span class="p">:</span><span class="n">index_end</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">data_target</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">data_rest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">rd_data</span> <span class="o">=</span> <span class="n">data_rest</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">rowduction_target</span><span class="p">:</span>
+                    <span class="n">iter_data_target</span> <span class="o">=</span> <span class="n">data_target</span><span class="p">[</span><span class="n">data_target</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">]</span>
+                    <span class="n">iter_data_target</span> <span class="o">=</span> <span class="n">iter_data_target</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">iter_rd_data_target</span> <span class="o">=</span> <span class="n">apply_kern_rowduction</span><span class="p">(</span><span class="n">iter_data_target</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> \
+                        <span class="n">nb_rows_memory</span><span class="o">=</span><span class="n">nb_rows_memory</span><span class="p">)</span>
+                    <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iter_rd_data_target</span><span class="p">)</span>
+                <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">all_rd_data</span> <span class="o">=</span> <span class="n">all_rd_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rd_data</span><span class="p">)</span>
+                <span class="k">del</span> <span class="n">rd_data</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data_target</span><span class="p">,</span> <span class="n">data_rest</span><span class="p">,</span> <span class="n">iter_data_target</span><span class="p">,</span> <span class="n">iter_rd_data_target</span>
+                <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Add 10% to the progress bar</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;Error : bad rowduct_target input.&quot;</span>
+
+
+        <span class="c1"># At the end rowduct all the rowducted data once again</span>
+
+        <span class="n">all_rd_data</span> <span class="o">=</span> <span class="n">all_rd_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Rowduct all values of the label together (0 and 1 together by example)</span>
+        <span class="k">if</span> <span class="n">rowduction_method</span> <span class="o">==</span> <span class="s2">&quot;grouped&quot;</span><span class="p">:</span>
+            <span class="n">all_data_target</span> <span class="o">=</span> <span class="n">all_rd_data</span><span class="p">[</span><span class="n">all_rd_data</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span>
+            <span class="n">all_data_target</span> <span class="o">=</span> <span class="n">all_data_target</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">all_rd_data_target</span> <span class="o">=</span> <span class="n">apply_kern_rowduction</span><span class="p">(</span><span class="n">all_data_target</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> \
+                <span class="n">nb_rows_memory</span><span class="o">=</span><span class="n">nb_rows_memory</span><span class="p">)</span>
+            <span class="n">all_data_rest</span> <span class="o">=</span> <span class="n">all_rd_data</span><span class="p">[</span><span class="o">~</span><span class="n">all_rd_data</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span>
+            <span class="n">all_data_rest</span> <span class="o">=</span> <span class="n">all_data_rest</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">final_rd_data</span> <span class="o">=</span> <span class="n">all_rd_data_target</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">all_data_rest</span><span class="p">)</span>
+            <span class="n">final_rd_data</span> <span class="o">=</span> <span class="n">final_rd_data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># If label_col is equal to the default value, \</span>
+            <span class="c1"># then delete the temporary column &quot;_krd_default_label_&quot; previously created</span>
+            <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;_krd_default_label_&quot;</span><span class="p">:</span>
+                <span class="n">final_rd_data</span> <span class="o">=</span> <span class="n">final_rd_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_krd_default_label_&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Add 10% to the progress bar</span>
+
+            <span class="k">return</span> <span class="n">final_rd_data</span>
+
+        <span class="c1"># Rowduct all values of the label separately, and then join them together</span>
+            <span class="c1"># with the none rowducted ones</span>
+        <span class="k">if</span> <span class="n">rowduction_method</span> <span class="o">==</span> <span class="s2">&quot;separately&quot;</span><span class="p">:</span>
+            <span class="n">all_data_target</span> <span class="o">=</span> <span class="n">all_rd_data</span><span class="p">[</span><span class="n">all_rd_data</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span>
+            <span class="n">all_data_target</span> <span class="o">=</span> <span class="n">all_data_target</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">all_data_rest</span> <span class="o">=</span> <span class="n">all_rd_data</span><span class="p">[</span><span class="o">~</span><span class="n">all_rd_data</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span>
+            <span class="n">all_data_rest</span> <span class="o">=</span> <span class="n">all_data_rest</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">final_rd_data</span> <span class="o">=</span> <span class="n">all_data_rest</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">rowduction_target</span><span class="p">:</span>
+                <span class="n">iter_data_target</span> <span class="o">=</span> <span class="n">all_data_target</span><span class="p">[</span><span class="n">all_data_target</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">]</span>
+                <span class="n">iter_data_target</span> <span class="o">=</span> <span class="n">iter_data_target</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">iter_rd_data_target</span> <span class="o">=</span> <span class="n">apply_kern_rowduction</span><span class="p">(</span><span class="n">iter_data_target</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span>\
+                    <span class="n">nb_rows_memory</span><span class="o">=</span><span class="n">nb_rows_memory</span><span class="p">)</span>
+                <span class="n">final_rd_data</span> <span class="o">=</span> <span class="n">final_rd_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iter_rd_data_target</span><span class="p">)</span>
+                <span class="n">final_rd_data</span> <span class="o">=</span> <span class="n">final_rd_data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># If label_col is equal to the default value, \</span>
+            <span class="c1"># then delete the temporary column &quot;_krd_default_label_&quot; previously created</span>
+            <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;_krd_default_label_&quot;</span><span class="p">:</span>
+                <span class="n">final_rd_data</span> <span class="o">=</span> <span class="n">final_rd_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_krd_default_label_&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Add 10% to the progress bar</span>
+
+            <span class="k">return</span> <span class="n">final_rd_data</span>
+
+    <span class="c1"># Else rowduct the whole dataset in one batch</span>
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="c1"># Initialize the progress bar displayed in the console</span>
+        <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Kern Rowduction - Progression (by batch)&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Rowduct all values of the label together (0 and 1 together by example)</span>
+        <span class="k">if</span> <span class="n">rowduction_method</span> <span class="o">==</span> <span class="s2">&quot;grouped&quot;</span><span class="p">:</span>
+            <span class="n">data_target</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">rd_data_target</span> <span class="o">=</span> <span class="n">apply_kern_rowduction</span><span class="p">(</span><span class="n">data_target</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span>\
+                <span class="n">nb_rows_memory</span><span class="o">=</span><span class="n">nb_rows_memory</span><span class="p">)</span>
+            <span class="n">data_rest</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data_target</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_rest</span><span class="p">)</span>
+            <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># If label_col is equal to the default value, \</span>
+            <span class="c1"># then delete the temporary column &quot;_krd_default_label_&quot; previously created</span>
+            <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;_krd_default_label_&quot;</span><span class="p">:</span>
+                <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_krd_default_label_&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Add 10% to the progress bar</span>
+
+            <span class="k">return</span> <span class="n">rd_data</span>
+
+        <span class="c1"># Rowduct all values of the label separately, and then join them together</span>
+            <span class="c1"># with the none rowducted ones</span>
+        <span class="k">if</span> <span class="n">rowduction_method</span> <span class="o">==</span> <span class="s2">&quot;separately&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">,</span> <span class="s2">&quot;------&quot;</span><span class="p">)</span>
+            <span class="n">data_target</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">data_rest</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rowduction_target</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">rd_data</span> <span class="o">=</span> <span class="n">data_rest</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">rowduction_target</span><span class="p">:</span>
+                <span class="n">iter_data_target</span> <span class="o">=</span> <span class="n">data_target</span><span class="p">[</span><span class="n">data_target</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">]</span>
+                <span class="n">iter_data_target</span> <span class="o">=</span> <span class="n">iter_data_target</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">iter_rd_data_target</span> <span class="o">=</span> <span class="n">apply_kern_rowduction</span><span class="p">(</span><span class="n">iter_data_target</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span>\
+                    <span class="n">nb_rows_memory</span><span class="o">=</span><span class="n">nb_rows_memory</span><span class="p">)</span>
+                <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iter_rd_data_target</span><span class="p">)</span>
+            <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># If label_col is equal to the default value, \</span>
+            <span class="c1"># then delete the temporary column &quot;_krd_default_label_&quot; previously created</span>
+            <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;_krd_default_label_&quot;</span><span class="p">:</span>
+                <span class="n">rd_data</span> <span class="o">=</span> <span class="n">rd_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_krd_default_label_&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Add 10% to the progress bar</span>
+
+            <span class="k">return</span> <span class="n">rd_data</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Error : bad rowduct_target input.&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Hichem Boughattas &amp; Hamza Bouanani.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

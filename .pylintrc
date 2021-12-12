@@ -1,0 +1,14 @@
+[MASTER]
+
+# Good variable names which should always be accepted, separated by a comma.
+good-names=i, j, k, df, x, y, z, n, e
+
+# Disabled checks 
+disable=
+    no-else-return
+
+# Change the max number of arguments from 5 (default) to 7
+max-args = 7
+
+# Ignore the Sphinx doc directory, like the Sphinx doc directory
+ignore=doc, conf.py

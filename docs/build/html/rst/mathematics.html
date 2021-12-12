@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mathematical concepts &mdash; Kern Rowduction 0.0.1 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Installation" href="installing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Kern Rowduction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mathematical concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#knowledges-about-graphs">Knowledges about Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-intuition">General Intuition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#approach">Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-information">More information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_code_doc.html">Source Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Kern Rowduction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Mathematical concepts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/rst/mathematics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="mathematical-concepts">
+<h1>Mathematical concepts<a class="headerlink" href="#mathematical-concepts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="knowledges-about-graphs">
+<h2>Knowledges about Graphs<a class="headerlink" href="#knowledges-about-graphs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="general-intuition">
+<h2>General Intuition<a class="headerlink" href="#general-intuition" title="Permalink to this headline">¶</a></h2>
+<p>The idea behind the Kern-Rowduction algorithm is to represent a dataset as an oriented graph of nodes and to find its more ‘core’ characteristics, that is to say its kernel.
+Thus, it removes the ‘useless’ &amp; ‘noisy’ data instances/rows and increases the variance of the dataset / potential machine learning models.</p>
+<p>Another way to understand the intuition is to imagine the case of a Multi-objective optimization. For example, if you’re looking for a good car with the best
+quality / price ratio and there are plenty of cars that are proposed, a way to visualize the problem is to:</p>
+<ul class="simple">
+<li><p>Draw a graph with the price &amp; the quality as axis</p></li>
+<li><p>Put all the cars as points on the axis according to their price and quality measured</p></li>
+<li><p>Remove all dominated points. But you can still have an infinite number of potential cars that are not pairwise dominant. So the main problem is how to choose between all this large number of choices that can’t dominate each other (called the ‘representativeness problem’). The idea is to gather them into small clusters - each cluster is made up of very similar points - and then reduce the number of points in each cluster by keeping the point(s) that best represent(s) the main characteristics of that cluster (generally the barycentre and the convex envelope). In other words, it is like finding the skeleton of a complex body / shape.</p></li>
+<li><p>This way you are sure that all the main combinations of price/quality are represented by at least one point (car)</p></li>
+</ul>
+<p>Below the representation into a graph of the problem with the cars previously explained:</p>
+<div class="figure align-default">
+<a class="reference internal image-reference" href="../_images/dominance_intuition_graph.png"><img alt="Scheme/Graph to show visually the intuition of dominance between items/cars/nodes." src="../_images/dominance_intuition_graph.png" style="width: 763.5px; height: 452.25px;" /></a>
+</div>
+<p>Thus, the Kern-Rowduction tries to grasp the same intuition used to solve the ‘representativeness problem’: we try to reduce the number of the observations on the data set using the same approach (gathering points into small clusters that are going to be represented by fewer points) through graphs and kernels.
+It is explained furthermore in the next section below.</p>
+</div>
+<div class="section" id="approach">
+<h2>Approach<a class="headerlink" href="#approach" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Convert the input dataset into an oriented graph:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Each observation will be represented by a vertice which will have the same number as the row index and we will add an edge between two vertices whenever an observation epsilon-dominate another one.</p></li>
+<li><p>Epsilon-domination is a relaxation of standard domination. We can say that vertice X epsilon-dominates the vertice Y if and only if X &gt; (1+epsilon)*Y, that is to say if each coordinate/feature of the row X is superior to (1+epsilon) times the same coordinate/feature of the row Y.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Ideally, one would like to find the kernel directly. However, any graph can either have no kernel or have an infinite number of kernels or a finite number of them. Thus, the idea is to find its quasi-kernel. To do this, we must start by separating the graph into 2 induced sub-graphs without circuits.</p></li>
+<li><p>To create the 2 induced sub-graphs and to make sure they are circuitless, we proceed as follows:</p>
+<blockquote>
+<div><p>The 2 sub-graphs will have all the vertices from the original graph, then we will split the edges between them as follows:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>If the number associated to the source vertice is higher that the number associated to the destination vertice, then the edge will be added to the first subgraph.</p></li>
+<li><p>If not then the edge will be added to the second subgraph.</p></li>
+</ol>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p>We will compute the kernel of the first subgraph (there is one and only one kernel for a circuitless graph). Then, we will create a new graph that will have the vertices of the kernel that we just compute but the edges of the second subgraph. Finally, we compute the kernel of that last created graph and the vertices of this last kernel (also named quasi-kernel of the original graph) will be the observations that we will keep from our dataset.</p></li>
+</ol>
+</div>
+<div class="section" id="more-information">
+<h2>More information<a class="headerlink" href="#more-information" title="Permalink to this headline">¶</a></h2>
+<p>A deeper explanation of the Kern Rowduction package and methodology will come later, notably with a scientific publication.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installing.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Hichem Boughattas &amp; Hamza Bouanani.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

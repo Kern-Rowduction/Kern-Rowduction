@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Source Code Documentation &mdash; Kern Rowduction 0.0.1 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bibliography" href="bibliography.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Kern Rowduction
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mathematics.html">Mathematical concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Source Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-kern_rowduction.rowduction">Kern Rowduction Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tests.test_rowduction">Unit Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-main">Main / Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Kern Rowduction</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Source Code Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/rst/source_code_doc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="source-code-documentation">
+<h1>Source Code Documentation<a class="headerlink" href="#source-code-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-kern_rowduction.rowduction">
+<span id="kern-rowduction-package"></span><h2>Kern Rowduction Package<a class="headerlink" href="#module-kern_rowduction.rowduction" title="Permalink to this headline">¶</a></h2>
+<p>All the usable methods/functions which constitute the Kern_Rowduction package.</p>
+<dl class="py function">
+<dt id="kern_rowduction.rowduction.apply_kern_rowduction">
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">apply_kern_rowduction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">epsilon</span></em>, <em class="sig-param"><span class="n">nb_rows_memory</span><span class="o">=</span><span class="default_value">100000</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#apply_kern_rowduction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.apply_kern_rowduction" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Apply the “Rowduction” process on a DF and returns the reduced DataFrame.</dt><dd><p>NB : The Rowduction process consists in building a directed graph, extracting its quasi
+kernel and returning the associated DF.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>df<span class="classifier">pandas DataFrame</span></dt><dd><p>DataFrame to reduce through the “Rowduction” process</p>
+</dd>
+<dt>epsilon<span class="classifier">float</span></dt><dd><p>Threshold of dominance between 2 points: Point1 must be &gt; (1+epsilon)*Point2 for each column</p>
+</dd>
+<dt>nb_rows_memory<span class="classifier">int</span></dt><dd><p>Number of rows per batch to process the Rowduction. Smaller it is, less memory it takes but
+potentially slower it is</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>rowducted_df<span class="classifier">pandas DataFrame</span></dt><dd><p>The input ‘df’ DataFrame but rowducted, with only the rows to keep after the Rowduction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kern_rowduction.rowduction.build_uncycled_subgraphs">
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">build_uncycled_subgraphs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#build_uncycled_subgraphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.build_uncycled_subgraphs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Build 2 induced subgraphs from the input graph so that both subgraphs don’t include cycles.</dt><dd><p>That is to say, from a input graph, build 2 sub graphs according to the sense of their edges
+(departure_node’s value &lt;=&gt; arrival_node’s value).</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>graph<span class="classifier">networkx DiGraph</span></dt><dd><p>Networkx Digraph with all the nodes and edges created basically from the original DataFrame</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>graph1_prime<span class="classifier">networkx DiGraph</span></dt><dd><p>A uncycled sub graph with the edges between a lower node’s value to a higher node’s value
+from the input graph</p>
+</dd>
+<dt>graph2_prime<span class="classifier">networkx DiGraph</span></dt><dd><p>A uncycled sub graph with the other edges from the input graph not put into graph1_prime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kern_rowduction.rowduction.epsilon_dominates">
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">epsilon_dominates</code><span class="sig-paren">(</span><em class="sig-param">point_id_1=&lt;class 'int'&gt;</em>, <em class="sig-param">point_id_2=&lt;class 'int'&gt;</em>, <em class="sig-param">df=&lt;class 'pandas.core.frame.DataFrame'&gt;</em>, <em class="sig-param">epsilon=&lt;class 'float'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#epsilon_dominates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.epsilon_dominates" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>From an input DF, check if the input node Point 1 (row 1) epsilon dominates the node</dt><dd><p>Point 2 (row 2).</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>point_id_1<span class="classifier">int</span></dt><dd><p>Row index of the point 1 in the pandas DataFrame df</p>
+</dd>
+<dt>point_id_2<span class="classifier">int</span></dt><dd><p>Row index of the point 2 in the pandas DataFrame df</p>
+</dd>
+<dt>df<span class="classifier">pd.DataFrame</span></dt><dd><p>Pandas Dataframe where the point are stored</p>
+</dd>
+<dt>epsilon<span class="classifier">float</span></dt><dd><p>Threshold of dominance between 2 points: Point1 must be &gt; (1+epsilon)*Point2 for each column</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>flag</dt><dd><p>A boolean which is True if Point 1 epsilon dominates Point 2 otherwise False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kern_rowduction.rowduction.extract_kernel">
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">extract_kernel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em>, <em class="sig-param"><span class="n">all_neighbors_dic</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#extract_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.extract_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Retrieve the kernel of the input directed graph if there is one.</dt><dd><p>NB : This function works indefinitely if the graph includes a circuit.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>graph<span class="classifier">networkx DiGraph</span></dt><dd><p>Networkx Digraph with all the nodes and edges created basically from the original DataFrame</p>
+</dd>
+<dt>all_neighbors_dic<span class="classifier">dict</span></dt><dd><p>Dictionary of integers (nodes) with all the inner and outer neighbors of the all the nodes</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>kernel<span class="classifier">list</span></dt><dd><p>A sorted list with all the nodes of the kernel computed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kern_rowduction.rowduction.extract_quasi_kernel">
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">extract_quasi_kernel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">uncycled_subgraph_1</span></em>, <em class="sig-param"><span class="n">uncycled_subgraph_2</span></em>, <em class="sig-param"><span class="n">all_neighbors_dic</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#extract_quasi_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.extract_quasi_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the quasi kernel from 2 associated uncycled subgraphs.</p>
+<dl class="simple">
+<dt>uncycled_subgraph_1<span class="classifier">networkx DiGraph</span></dt><dd><p>Networkx Digraph without cycles and with all the nodes and “increasing” edges extracted
+initially from a bigger input graph.</p>
+</dd>
+<dt>uncycled_subgraph_2<span class="classifier">networkx DiGraph</span></dt><dd><p>Networkx Digraph without cycles and with all the nodes and “decreasing” edges extracted
+initially from a bigger input graph.</p>
+</dd>
+<dt>all_neighbors_dic<span class="classifier">dict</span></dt><dd><p>Dictionary of integers (nodes) with all the inner and outer neighbors of the all the nodes</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>quasi_kernel<span class="classifier">list</span></dt><dd><p>A sorted list with all the nodes of the quasi kernel computed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kern_rowduction.rowduction.find_in_neighbors">
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">find_in_neighbors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em>, <em class="sig-param"><span class="n">point_id</span></em>, <em class="sig-param"><span class="n">all_neighbors_dic</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#find_in_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.find_in_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>From a graph and a dictionary of all nodes’ neighbors, find all INNER neighbors of</dt><dd><p>the input node (identified by its point_id).</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>graph<span class="classifier">networkx DiGraph</span></dt><dd><p>Networkx Digraph with all the nodes and edges created basically from the original DataFrame</p>
+</dd>
+<dt>point_id<span class="classifier">int</span></dt><dd><p>Number ID of the node to analyze in the graph</p>
+</dd>
+<dt>all_neighbors_dic<span class="classifier">dict</span></dt><dd><p>Dictionary of integers (nodes) with all the inner and outer neighbors of the all the nodes</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>in_neighbors<span class="classifier">list</span></dt><dd><p>A list with all the INNER neighbords of the node point_id</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kern_rowduction.rowduction.find_out_neighbors">
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">find_out_neighbors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em>, <em class="sig-param"><span class="n">point_id</span></em>, <em class="sig-param"><span class="n">all_neighbors_dic</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#find_out_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.find_out_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>From a graph and a dictionary of all nodes’ neighbors, find all OUTER neighbors of</dt><dd><p>the input node (identified by its point_id).</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>graph<span class="classifier">networkx DiGraph</span></dt><dd><p>Networkx Digraph with all the nodes and edges created basically from the original DataFrame</p>
+</dd>
+<dt>point_id<span class="classifier">int</span></dt><dd><p>Number ID of the node to analyze in the graph</p>
+</dd>
+<dt>all_neighbors_dic<span class="classifier">dict</span></dt><dd><p>Dictionary of integers (nodes) with all the inner and outer neighbors of the all the nodes</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>in_neighbors<span class="classifier">list</span></dt><dd><p>A list with all the OUTER neighbords of the node point_id</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kern_rowduction.rowduction.rowduct">
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">rowduct</code><span class="sig-paren">(</span><em class="sig-param">df=&lt;class 'pandas.core.frame.DataFrame'&gt;</em>, <em class="sig-param">rowduction_target='all'</em>, <em class="sig-param">epsilon=0.025</em>, <em class="sig-param">nb_rows_memory=10000</em>, <em class="sig-param">step_activated=False</em>, <em class="sig-param">label_col='_krd_default_label_'</em>, <em class="sig-param">rowduction_method='separately'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#rowduct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.rowduct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parametrize the “Rowduction” process, apply it on a DF and returns the reduced DataFrame.</p>
+<dl class="simple">
+<dt>df<span class="classifier">pandas DataFrame</span></dt><dd><p>DataFrame to reduce through the “Rowduction” process</p>
+</dd>
+<dt>rowduction_target<span class="classifier">list or str</span></dt><dd><p>List of label values upon which to apply the Rowduction process. Rows with label values
+that are not listed will remain intact. If the rowduction_target = “all” (default value),
+the whole input DataFrame df is reduced.</p>
+</dd>
+<dt>epsilon<span class="classifier">float</span></dt><dd><p>Threshold of dominance between 2 points: Point1 must be &gt; (1+epsilon)*Point2 for each column</p>
+</dd>
+<dt>nb_rows_memory<span class="classifier">int</span></dt><dd><p>Number of rows per batch to process the Rowduction. Smaller it is, less memory it takes but
+potentially slower it is</p>
+</dd>
+<dt>step_activated<span class="classifier">boolean</span></dt><dd><p>True if the Rowduction has to be step by step of rows, which avoids memory errors in case of
+huge input DataFrame df. Otherwise False for a ‘one shot’ rowduction.</p>
+</dd>
+<dt>label_col<span class="classifier">str</span></dt><dd><p>Name of the label column which contains the ‘rowduction_target’</p>
+</dd>
+<dt>rowduction_method<span class="classifier">str</span></dt><dd><p>Rowduction method : ‘grouped’ to reduce/rowduct together all Rowduction targets,
+‘separately’ to reduce/rowduct each of them separately and then concatenate them together</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>rowducted_df<span class="classifier">pandas DataFrame</span></dt><dd><p>The input ‘df’ DataFrame but rowducted, with only the rows to keep after the Rowduction</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.test_rowduction">
+<span id="unit-tests"></span><h2>Unit Tests<a class="headerlink" href="#module-tests.test_rowduction" title="Permalink to this headline">¶</a></h2>
+<p>Units tests on 2 Datasets to detect potential bugs of the Kern_Rowduction package.</p>
+<dl class="py function">
+<dt id="tests.test_rowduction.test_rowduction_01_dataset_a">
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_01_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_01_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_01_dataset_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the rowduction on a 0 and 1 values of the label of the Dataset A.</p>
+<dl class="simple">
+<dt>Implemented checks :</dt><dd><p>-Check if the rowduction reduces the number of rows from the original input df
+-Check if all “one shot” rowductions and rowduction with a
+higher batch size (nb_rows_memory) than the total number of rows give the results
+-Check if rowduct(…) and apply_kern_rowduction(…) give same results when
+the parameters are similar
+-Check if it gives the same reduced results with no rowduction_target or equal to “all”
+-Check if it gives the same reduced results with no label_col (nor rowduction_target)             and whatever the rowduction_method</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tests.test_rowduction.test_rowduction_01_dataset_b">
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_01_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.052</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_01_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_01_dataset_b" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Test the rowduction on a 0 and 1 values of the label of the Dataset B. There are less tests</dt><dd><p>than with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
+</dd>
+<dt>Implemented checks :</dt><dd><p>-Check if the rowduction reduces the number of rows from the original input df
+-Check if the step by step rowduction works and avoid the memory error due to a too large df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tests.test_rowduction.test_rowduction_0_dataset_a">
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_0_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_0_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_0_dataset_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the rowduction on a 0 value of the label of the Dataset A.</p>
+<p>Implemented checks :
+-Check if the rowduction reduces the number of rows from the original input df
+-Check if all “one shot” rowductions and rowduction with a
+higher batch size (nb_rows_memory) than the total number of rows give the results</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tests.test_rowduction.test_rowduction_0_dataset_b">
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_0_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_0_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_0_dataset_b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the rowduction on a 0 value of the label of the Dataset B. There are less tests than
+with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
+<dl class="simple">
+<dt>Implemented checks :</dt><dd><p>-Check if the rowduction reduces the number of rows from the original input df
+-Check if the step by step rowduction works and avoid the memory error due to a too large df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tests.test_rowduction.test_rowduction_1_dataset_a">
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_1_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_1_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_1_dataset_a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the rowduction on a 1 value of the label of the Dataset A.</p>
+<p>Implemented checks :
+-Check if the rowduction reduces the number of rows from the original input df
+-Check if all “one shot” rowductions and rowduction with a
+higher batch size (nb_rows_memory) than the total number of rows give the results</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tests.test_rowduction.test_rowduction_1_dataset_b">
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_1_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_1_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_1_dataset_b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the rowduction on a 0 value of the label of the Dataset B. There are less tests than
+with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
+<dl class="simple">
+<dt>Implemented checks :</dt><dd><p>-Check if the rowduction reduces the number of rows from the original input df
+-Check if the step by step rowduction works and avoid the memory error due to a too large df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tests.test_rowduction.test_rowduction_dataset_c">
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_dataset_c</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_abalone.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_dataset_c"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_dataset_c" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Test the rowduction on a 0 and 1 values of the label of the Dataset B. There are less tests</dt><dd><p>than with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
+</dd>
+<dt>Implemented checks :</dt><dd><blockquote>
+<div><p>-Check if the rowduction reduces the number of rows from the original input df
+-Check if the rowduction for a multiclass dataset reduces the rows with the given             rowduction_target but not the others</p>
+</div></blockquote>
+<p>-Check if the rowduction with all the classes as target (and even more than the ones that            actually exist) is equivalent to an “all” rowduction</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-main">
+<span id="main-examples"></span><h2>Main / Examples<a class="headerlink" href="#module-main" title="Permalink to this headline">¶</a></h2>
+<p>Main script to give examples of use of the Kern_Rowduction package.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the CSV file as a pandas DataFrame</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">kern_rowduction.rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
+
+<span class="n">PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;/tests/data/&quot;</span>
+<span class="n">FILENAME</span> <span class="o">=</span> <span class="s2">&quot;clean_pima_train.csv&quot;</span>
+<span class="n">EPSILON</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----&quot;</span><span class="p">,</span> <span class="n">FILENAME</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="n">FILENAME</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+
+<span class="c1"># Try to kern rowduct the DataFrame in &quot;one shot&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+   <span class="n">df2</span> <span class="o">=</span> <span class="n">krd</span><span class="o">.</span><span class="n">rowduct_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">EPSILON</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;One shot reduction -&gt; &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df2</span><span class="p">),</span> <span class="s2">&quot;remaining rows&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">MemoryError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory Error:&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+
+<span class="c1"># Kern rowduct the DataFrame by step batches of 10000 rows =&gt; it avoids the memory error bug</span>
+<span class="n">df3</span> <span class="o">=</span> <span class="n">krd</span><span class="o">.</span><span class="n">rowduct</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nb_rows_memory</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">step_activated</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> \
+   <span class="n">label_col</span> <span class="o">=</span> <span class="s2">&quot;Label&quot;</span><span class="p">,</span> <span class="n">rowduction_method</span> <span class="o">=</span> <span class="s2">&quot;separately&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Step by step reduction V3 -&gt; &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df3</span><span class="p">),</span> <span class="s2">&quot; remaining rows&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bibliography.html" class="btn btn-neutral float-right" title="Bibliography" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Hichem Boughattas &amp; Hamza Bouanani.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
