@@ -1,1 +1,2 @@
-from kern_rowduction.rowduction import rowduct, apply_kern_rowduction
+from .rowduction import *
+__version__ = "0.0.3"
