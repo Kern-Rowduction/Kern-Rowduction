@@ -1,1 +1,2 @@
-from kern_rowduction.rowduction import rowduct, apply_kern_rowduction
+from .rowduction import *
+from .version import __version__

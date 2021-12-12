@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 from pathlib import Path
 
 
-VERSION = '0.0.2'
+VERSION = '0.0.3'
 DESCRIPTION = 'Kern Rowduction - A package to reduce the number of rows / undersample the \
     (imbalanced) datasets by graph kernelisation methods.'
 CURRENT_DIRECTORY = Path(__file__).parent

@@ -58,6 +58,7 @@ Below an example of usage where a given simple DataFrame is 'rowductioned':
 
 ```python
 import kern_rowduction as krd
+import pandas as pd
 
 df = pd.DataFrame(
   {
