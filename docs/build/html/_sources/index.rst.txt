@@ -10,8 +10,8 @@ Kern Rowduction
 | This is possible by converting your data set into an oriented graph and extract its quasi-kernel which will represent your reduced data. 
 | Using the reduced data instead of your original data will improve the computational & statistical performance of your machine learning algorithm.    
 
-| Release date: 12 October 2021
-| Version: 0.0.1
+| First Release date: 12 October 2021
+| Version: 0.0.4
 
 | Support for Python 3.6.9 at least.
 

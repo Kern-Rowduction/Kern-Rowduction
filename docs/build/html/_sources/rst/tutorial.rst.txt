@@ -19,7 +19,7 @@ Then, you can apply the Kern-Rowduction with the default parameters:
 
 .. code-block:: python
 
-    import kern_rowduction.rowduction as krd
+    import kern_rowduction as krd
 
     krd_df = krd.rowduct(df)
 
@@ -42,7 +42,7 @@ Then, you can apply the Kern-Rowduction and set the epsilon dominance threshold/
 
 .. code-block:: python
 
-    import kern_rowduction.rowduction as krd
+    import kern_rowduction as krd
 
     krd_df_1 = krd.rowduct(df, epsilon = 0.1)
 
@@ -59,7 +59,7 @@ apply the Kern-Rowduction and choose the rows to kern-rowduct according to their
 
 .. code-block:: python
 
-    import kern_rowduction.rowduction as krd
+    import kern_rowduction as krd
 
     krd_df_2 = krd.rowduct(df, rowduction_target=["A","B"], epsilon = 0.1, label_col="class")
 
@@ -74,7 +74,7 @@ with a given batch size of 1000 rows to process step by step in order to avoid a
 
 .. code-block:: python
 
-    import kern_rowduction.rowduction as krd
+    import kern_rowduction as krd
     
     krd_df_3 = krd.rowduct(df, rowduction_target=["A","B"], epsilon = 0.1, nb_rows_memory=1000, step_activated=True, label_col="class")
 

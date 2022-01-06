@@ -83,7 +83,7 @@
 <p>All the usable methods/functions which constitute the Kern_Rowduction package.</p>
 <dl class="py function">
 <dt id="kern_rowduction.rowduction.apply_kern_rowduction">
-<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">apply_kern_rowduction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">epsilon</span></em>, <em class="sig-param"><span class="n">nb_rows_memory</span><span class="o">=</span><span class="default_value">100000</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#apply_kern_rowduction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.apply_kern_rowduction" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">apply_kern_rowduction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">epsilon</span></em>, <em class="sig-param"><span class="n">nb_rows_memory</span><span class="o">=</span><span class="default_value">100000</span></em>, <em class="sig-param"><span class="n">remove_isolated_points</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#apply_kern_rowduction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.apply_kern_rowduction" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Apply the “Rowduction” process on a DF and returns the reduced DataFrame.</dt><dd><p>NB : The Rowduction process consists in building a directed graph, extracting its quasi
 kernel and returning the associated DF.</p>
@@ -96,6 +96,9 @@ kernel and returning the associated DF.</p>
 </dd>
 <dt>nb_rows_memory<span class="classifier">int</span></dt><dd><p>Number of rows per batch to process the Rowduction. Smaller it is, less memory it takes but
 potentially slower it is</p>
+</dd>
+<dt>remove_isolated_points<span class="classifier">boolean</span></dt><dd><p>Enabled/Disabled the remove of the ‘isolated’ points/nodes in the graph, that is to say
+the nodes for which no epsilon dominance relationship has been found.</p>
 </dd>
 </dl>
 <dl class="simple">
@@ -231,7 +234,7 @@ initially from a bigger input graph.</p>
 
 <dl class="py function">
 <dt id="kern_rowduction.rowduction.rowduct">
-<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">rowduct</code><span class="sig-paren">(</span><em class="sig-param">df=&lt;class 'pandas.core.frame.DataFrame'&gt;</em>, <em class="sig-param">rowduction_target='all'</em>, <em class="sig-param">epsilon=0.025</em>, <em class="sig-param">nb_rows_memory=10000</em>, <em class="sig-param">step_activated=False</em>, <em class="sig-param">label_col='_krd_default_label_'</em>, <em class="sig-param">rowduction_method='separately'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#rowduct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.rowduct" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kern_rowduction.rowduction.</code><code class="sig-name descname">rowduct</code><span class="sig-paren">(</span><em class="sig-param">df=&lt;class 'pandas.core.frame.DataFrame'&gt;</em>, <em class="sig-param">rowduction_target='all'</em>, <em class="sig-param">epsilon=0.025</em>, <em class="sig-param">nb_rows_memory=10000</em>, <em class="sig-param">step_activated=False</em>, <em class="sig-param">label_col='_krd_default_label_'</em>, <em class="sig-param">rowduction_method='separately'</em>, <em class="sig-param">remove_isolated_points=False</em>, <em class="sig-param">shuffle_seed=42</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kern_rowduction/rowduction.html#rowduct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kern_rowduction.rowduction.rowduct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parametrize the “Rowduction” process, apply it on a DF and returns the reduced DataFrame.</p>
 <dl class="simple">
 <dt>df<span class="classifier">pandas DataFrame</span></dt><dd><p>DataFrame to reduce through the “Rowduction” process</p>
@@ -253,6 +256,13 @@ huge input DataFrame df. Otherwise False for a ‘one shot’ rowduction.</p>
 <dt>rowduction_method<span class="classifier">str</span></dt><dd><p>Rowduction method : ‘grouped’ to reduce/rowduct together all Rowduction targets,
 ‘separately’ to reduce/rowduct each of them separately and then concatenate them together</p>
 </dd>
+<dt>remove_isolated_points<span class="classifier">boolean</span></dt><dd><p>Enabled/Disabled the remove of the ‘isolated’ points/nodes in the graph, that is to say
+the nodes for which no epsilon dominance relationship has been found.7</p>
+</dd>
+<dt>shuffle_seed<span class="classifier">int</span></dt><dd><p>A seed for the random shuffles of the rows done during the Kern Rowduction process. If 
+the seed is set (42 by default), the order of the rows returned at the end of the 
+Kern Rowduction will remain unchanged.</p>
+</dd>
 </dl>
 <dl class="simple">
 <dt>rowducted_df<span class="classifier">pandas DataFrame</span></dt><dd><p>The input ‘df’ DataFrame but rowducted, with only the rows to keep after the Rowduction</p>
@@ -266,7 +276,7 @@ huge input DataFrame df. Otherwise False for a ‘one shot’ rowduction.</p>
 <p>Units tests on 2 Datasets to detect potential bugs of the Kern_Rowduction package.</p>
 <dl class="py function">
 <dt id="tests.test_rowduction.test_rowduction_01_dataset_a">
-<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_01_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_01_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_01_dataset_a" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_01_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Documents/Code/Row_Reduction/Github 3/Pull/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_01_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_01_dataset_a" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test the rowduction on a 0 and 1 values of the label of the Dataset A.</p>
 <dl class="simple">
 <dt>Implemented checks :</dt><dd><p>-Check if the rowduction reduces the number of rows from the original input df
@@ -282,7 +292,7 @@ the parameters are similar
 
 <dl class="py function">
 <dt id="tests.test_rowduction.test_rowduction_01_dataset_b">
-<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_01_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.052</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_01_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_01_dataset_b" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_01_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Documents/Code/Row_Reduction/Github 3/Pull/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.052</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_01_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_01_dataset_b" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Test the rowduction on a 0 and 1 values of the label of the Dataset B. There are less tests</dt><dd><p>than with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
 </dd>
@@ -294,7 +304,7 @@ the parameters are similar
 
 <dl class="py function">
 <dt id="tests.test_rowduction.test_rowduction_0_dataset_a">
-<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_0_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_0_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_0_dataset_a" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_0_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Documents/Code/Row_Reduction/Github 3/Pull/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_0_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_0_dataset_a" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test the rowduction on a 0 value of the label of the Dataset A.</p>
 <p>Implemented checks :
 -Check if the rowduction reduces the number of rows from the original input df
@@ -304,7 +314,7 @@ higher batch size (nb_rows_memory) than the total number of rows give the result
 
 <dl class="py function">
 <dt id="tests.test_rowduction.test_rowduction_0_dataset_b">
-<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_0_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_0_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_0_dataset_b" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_0_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Documents/Code/Row_Reduction/Github 3/Pull/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_0_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_0_dataset_b" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test the rowduction on a 0 value of the label of the Dataset B. There are less tests than
 with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
 <dl class="simple">
@@ -316,7 +326,7 @@ with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
 
 <dl class="py function">
 <dt id="tests.test_rowduction.test_rowduction_1_dataset_a">
-<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_1_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_1_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_1_dataset_a" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_1_dataset_a</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Documents/Code/Row_Reduction/Github 3/Pull/tests/data/clean_pima_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_1_dataset_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_1_dataset_a" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test the rowduction on a 1 value of the label of the Dataset A.</p>
 <p>Implemented checks :
 -Check if the rowduction reduces the number of rows from the original input df
@@ -326,7 +336,7 @@ higher batch size (nb_rows_memory) than the total number of rows give the result
 
 <dl class="py function">
 <dt id="tests.test_rowduction.test_rowduction_1_dataset_b">
-<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_1_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_1_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_1_dataset_b" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_1_dataset_b</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Documents/Code/Row_Reduction/Github 3/Pull/tests/data/clean_adult_extract.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_1_dataset_b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_1_dataset_b" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test the rowduction on a 0 value of the label of the Dataset B. There are less tests than
 with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
 <dl class="simple">
@@ -338,7 +348,7 @@ with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
 
 <dl class="py function">
 <dt id="tests.test_rowduction.test_rowduction_dataset_c">
-<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_dataset_c</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Code/KRD/Kern-Rowduction/tests/data/clean_abalone.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_dataset_c"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_dataset_c" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">tests.test_rowduction.</code><code class="sig-name descname">test_rowduction_dataset_c</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">'/home/hichem/Documents/Code/Row_Reduction/Github 3/Pull/tests/data/clean_abalone.csv'</span></em>, <em class="sig-param"><span class="n">epsilon</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tests/test_rowduction.html#test_rowduction_dataset_c"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.test_rowduction.test_rowduction_dataset_c" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Test the rowduction on a 0 and 1 values of the label of the Dataset B. There are less tests</dt><dd><p>than with Dataset A because the DF is too heavy to “one shot” rowduct it.</p>
 </dd>

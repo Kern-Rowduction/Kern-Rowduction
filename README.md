@@ -62,17 +62,16 @@ import pandas as pd
 
 df = pd.DataFrame(
   {
-  'A': [20, 10, 91, 15, 6, 15] ,
-  'B': [11, 27, 53, 14, 113, 1],
-  'C': [20, 10, 91, 15, 6, 15],
-  'D': [20, 10, 91, 15, 6, 15],
-  'Label': [0, 1, 0, 0, 1, 1] 
-  }, 
+  'A': [20 ,21, 6, 5, 6, 91],
+  'B': [11, 12, 1, 14, 113, 1],
+  'C': [51, 50, 2, 21, 40, 95],
+  'D': [63, 65, 54, 12, 70, 98],
+  'Label': [0, 0, 1, 1, 1, 0]
+  },
   index = ['0', '1', '2','3','4','5'])
 
 rowductioned_df = krd.rowduct(df,rowduction_target=[0,1],\
-  epsilon=0.5,label_col='Label',rowduction_method='separately')
-
+  epsilon=0.5,label_col='Label',rowduction_method='separately',remove_isolated_points=False)
 ```
 
 ## Getting Help

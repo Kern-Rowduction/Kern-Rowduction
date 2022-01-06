@@ -318,7 +318,7 @@ def apply_kern_rowduction(df, epsilon, nb_rows_memory=100000, remove_isolated_po
 
 def rowduct(df=pd.DataFrame, rowduction_target="all", epsilon=0.025, nb_rows_memory=10000, \
     step_activated=False, label_col="_krd_default_label_", rowduction_method="separately", \
-    remove_isolated_points=False):
+    remove_isolated_points=False, shuffle_seed=42):
     '''Parametrize the "Rowduction" process, apply it on a DF and returns the reduced DataFrame.
 
     Parameters
@@ -344,7 +344,11 @@ def rowduct(df=pd.DataFrame, rowduction_target="all", epsilon=0.025, nb_rows_mem
         'separately' to reduce/rowduct each of them separately and then concatenate them together
     remove_isolated_points : boolean
         Enabled/Disabled the remove of the 'isolated' points/nodes in the graph, that is to say
-        the nodes for which no epsilon dominance relationship has been found.
+        the nodes for which no epsilon dominance relationship has been found.7
+    shuffle_seed : int
+        A seed for the random shuffles of the rows done during the Kern Rowduction process. If 
+        the seed is set (42 by default), the order of the rows returned at the end of the 
+        Kern Rowduction will remain unchanged.
 
     Returns
     -------
@@ -385,7 +389,7 @@ def rowduct(df=pd.DataFrame, rowduction_target="all", epsilon=0.025, nb_rows_mem
                     nb_rows_memory=nb_rows_memory, \
                     remove_isolated_points=remove_isolated_points)
                 data_rest = data[~data[label_col].isin(rowduction_target)].reset_index(drop=True)
-                rd_data = rd_data_target.append(data_rest).sample(frac=1).reset_index(drop=True)
+                rd_data = rd_data_target.append(data_rest).sample(frac=1, random_state=shuffle_seed).reset_index(drop=True)
                 all_rd_data = all_rd_data.append(rd_data)
                 del rd_data, data, data_target, data_rest, rd_data_target
 
@@ -404,7 +408,7 @@ def rowduct(df=pd.DataFrame, rowduction_target="all", epsilon=0.025, nb_rows_mem
                         nb_rows_memory=nb_rows_memory, \
                         remove_isolated_points=remove_isolated_points)
                     rd_data = rd_data.append(iter_rd_data_target)
-                rd_data = rd_data.sample(frac=1).reset_index(drop=True)
+                rd_data = rd_data.sample(frac=1, random_state=shuffle_seed).reset_index(drop=True)
                 all_rd_data = all_rd_data.append(rd_data)
                 del rd_data, data, data_target, data_rest, iter_data_target, iter_rd_data_target
 
@@ -426,7 +430,7 @@ def rowduct(df=pd.DataFrame, rowduction_target="all", epsilon=0.025, nb_rows_mem
             all_data_rest = all_rd_data[~all_rd_data[label_col].isin(rowduction_target)]
             all_data_rest = all_data_rest.reset_index(drop=True)
             final_rd_data = all_rd_data_target.append(all_data_rest)
-            final_rd_data = final_rd_data.sample(frac=1).reset_index(drop=True)
+            final_rd_data = final_rd_data.sample(frac=1, random_state=shuffle_seed).reset_index(drop=True)
 
             # If label_col is equal to the default value, \
             # then delete the temporary column "_krd_default_label_" previously created
@@ -451,7 +455,7 @@ def rowduct(df=pd.DataFrame, rowduction_target="all", epsilon=0.025, nb_rows_mem
                     nb_rows_memory=nb_rows_memory,\
                     remove_isolated_points=remove_isolated_points)
                 final_rd_data = final_rd_data.append(iter_rd_data_target)
-                final_rd_data = final_rd_data.sample(frac=1).reset_index(drop=True)
+                final_rd_data = final_rd_data.sample(frac=1, random_state=shuffle_seed).reset_index(drop=True)
 
             # If label_col is equal to the default value, \
             # then delete the temporary column "_krd_default_label_" previously created
@@ -473,7 +477,7 @@ def rowduct(df=pd.DataFrame, rowduction_target="all", epsilon=0.025, nb_rows_mem
                 remove_isolated_points=remove_isolated_points)
             data_rest = df[~df[label_col].isin(rowduction_target)].reset_index(drop=True)
             rd_data = rd_data_target.append(data_rest)
-            rd_data = rd_data.sample(frac=1).reset_index(drop=True)
+            rd_data = rd_data.sample(frac=1, random_state=shuffle_seed).reset_index(drop=True)
 
             # If label_col is equal to the default value, \
             # then delete the temporary column "_krd_default_label_" previously created
@@ -496,7 +500,7 @@ def rowduct(df=pd.DataFrame, rowduction_target="all", epsilon=0.025, nb_rows_mem
                     nb_rows_memory=nb_rows_memory, \
                     remove_isolated_points=remove_isolated_points)
                 rd_data = rd_data.append(iter_rd_data_target)
-            rd_data = rd_data.sample(frac=1).reset_index(drop=True)
+            rd_data = rd_data.sample(frac=1, random_state=shuffle_seed).reset_index(drop=True)
 
             # If label_col is equal to the default value, \
             # then delete the temporary column "_krd_default_label_" previously created

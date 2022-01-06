@@ -8,7 +8,7 @@ Binary installers for the latest released version are available at the [Python P
 
 .. code-block:: shell
 
-    pip install kern-rowduction
+    pip install kern_rowduction
 
 Installing with Github
 ----------------------

@@ -88,7 +88,7 @@
 <p>It works with other type of files : Excel xlsx, SAS sas7bdat etc…
 The file just needs to be loaded as a pandas DataFrame. More information at : <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/user_guide/index.html">https://pandas.pydata.org/pandas-docs/stable/user_guide/index.html</a>.</p>
 <p>Then, you can apply the Kern-Rowduction with the default parameters:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kern_rowduction.rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kern_rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
 
 <span class="n">krd_df</span> <span class="o">=</span> <span class="n">krd</span><span class="o">.</span><span class="n">rowduct</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
@@ -105,7 +105,7 @@ The file just needs to be loaded as a pandas DataFrame. More information at : <a
 </div>
 <p><strong>Set the Epsilon dominance rate</strong></p>
 <p>Then, you can apply the Kern-Rowduction and set the epsilon dominance threshold/rate on 0.1:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kern_rowduction.rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kern_rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
 
 <span class="n">krd_df_1</span> <span class="o">=</span> <span class="n">krd</span><span class="o">.</span><span class="n">rowduct</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
@@ -116,7 +116,7 @@ The file just needs to be loaded as a pandas DataFrame. More information at : <a
 <p><strong>Target the rows to kern-rowduct</strong></p>
 <p>If a given column ‘class’ has the possible following values : [“A”,”B”,”C”,”D”], you can also
 apply the Kern-Rowduction and choose the rows to kern-rowduct according to their label column value of “A” or “B”:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kern_rowduction.rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kern_rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
 
 <span class="n">krd_df_2</span> <span class="o">=</span> <span class="n">krd</span><span class="o">.</span><span class="n">rowduct</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">rowduction_target</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">)</span>
 </pre></div>
@@ -127,7 +127,7 @@ another column as ‘label_col’, so long it is an ordinal or categorical varia
 <p><strong>Deal with too large DataFrames: avoid memory errors</strong></p>
 <p>If the dataset is too large for the CPU/GPU memory when using the rowduct() method, it is possible to ‘kern-rowduct’ the DataFrame df
 with a given batch size of 1000 rows to process step by step in order to avoid a MemoryError:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kern_rowduction.rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kern_rowduction</span> <span class="k">as</span> <span class="nn">krd</span>
 
 <span class="n">krd_df_3</span> <span class="o">=</span> <span class="n">krd</span><span class="o">.</span><span class="n">rowduct</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">rowduction_target</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">nb_rows_memory</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">step_activated</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">)</span>
 </pre></div>
