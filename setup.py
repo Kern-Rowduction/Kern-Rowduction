@@ -22,7 +22,7 @@ setup(
         packages=find_packages(),
         install_requires=["pandas","numpy","networkx"],
         url = 'https://github.com/Kern-Rowduction/Kern-Rowduction',
-        download_url = 'https://github.com/Kern-Rowduction/Kern-Rowduction/archive/refs/tags/v_0.0.1.tar.gz',
+        download_url = 'https://github.com/Kern-Rowduction/Kern-Rowduction/archive/refs/tags/v_0.0.4.tar.gz',
         keywords=['python', 'graph', "kernel", "rowduction", \
         "imbalance", "data", "science", "dataset"],
         classifiers= [
