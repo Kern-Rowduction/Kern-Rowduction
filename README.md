@@ -6,7 +6,7 @@
 
 [![PyPI Latest Release](https://img.shields.io/pypi/v/kern-rowduction.svg)](https://pypi.org/project/kern-rowduction/)
 [![Package Status](https://img.shields.io/pypi/status/kern-rowduction.svg)](https://pypi.org/project/kern-rowduction/)
-[![Build Status](https://app.travis-ci.com/Kern-Rowduction/Kern-Rowduction.svg?branch=main)](https://app.travis-ci.com/Kern-Rowduction/Kern-Rowduction)
+[![Build Status](https://github.com/Kern-Rowduction/Kern-Rowduction/actions/workflows/build.yaml/badge.svg?branch=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kern-rowduction/kern-rowduction/blob/main/LICENSE)
 
 
